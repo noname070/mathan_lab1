@@ -16,10 +16,6 @@ public class Task2 {
 
         @Override
         public ArrayList<Double> findRoot(Function<Double, Double> func, double eps, double a, double b) {
-            if (func.apply(a) * func.apply(b) > 0) {
-                throw new IllegalArgumentException("на [a, b] корень не гарантирован");
-            }
-
             ArrayList<Double> answer = new ArrayList<>();
 
             double c;
@@ -27,7 +23,7 @@ public class Task2 {
             while ((b - a) / 2 > eps) {
                 c = (a + b) / 2;
 
-                if (func.apply(c) == 0) {
+                if (Math.abs(func.apply(c)) < eps) {
                     answer.add(c);
                     return answer;
                 } else if (func.apply(a) * func.apply(c) < 0) {
@@ -44,9 +40,10 @@ public class Task2 {
     };
 
     public static void main(String[] args) {
-        Function<Double, Double> func = (x) -> x * x * x * x - 4;
+        Function<Double, Double> func = (x) -> x - 4;
+        System.out.println("Функция f(x) = x - 4");
 
-        double target = 1.41421d;
+        double target = 2d;
         // BiFunction<Double, Double, Double> mse = (x,y) -> (x-y)*(x-y);
         BiFunction<ArrayList<Double>, Double, Double> std = (vals, mean) -> Math.sqrt(
                 vals.stream()
@@ -54,12 +51,12 @@ public class Task2 {
                         .average()
                         .orElse(0.0));
 
-        double a = 0;
-        double b = 3;
+        double a = -2;
+        double b = 2;
         double eps = .001;
 
         ArrayList<Double> bisectionRoot = bisection.findRoot(func, eps, a, b);
-        System.out.printf("Корень: %s (%.4f) за %s итераций, rds: %s \n",
+        System.out.printf("Корень: %s (%.4f) за %s итераций, rds от ожидаемого: %.4f \n",
                 bisectionRoot.getLast(),
                 bisectionRoot.getLast(),
                 bisectionRoot.size(),

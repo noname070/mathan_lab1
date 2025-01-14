@@ -129,6 +129,7 @@ public class Task1 {
 
         // Function<Double, Double> func = (x) -> x+2*x*x+3*x*x*x-3;
         Function<Double, Double> func = (x) -> x * x;
+        System.out.println("Функция f(x) = x * x");
         double a, b, eps;
         a = -10;
         b = 10;
